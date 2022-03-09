@@ -121,6 +121,7 @@ export default class Bartender extends React.Component {
     render() {
         const current_beer_list = this.state.beers;
         const flight_list = this.state.inflight;
+        console.log("test")
         return (
             <div className='AppDiv'>
                 <h1>Hello, Bartender!</h1>
