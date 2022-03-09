@@ -1,5 +1,7 @@
 import React from 'react';
 import './static/bartender.css';
+import BeerForm from './BeerForm';
+import jsonData from './static/localBeerStorage.json';
 
 export default class Bartender extends React.Component {
 
@@ -17,54 +19,21 @@ export default class Bartender extends React.Component {
             beers: [],
         }
         this.changeHandler = this.changeHandler.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        // this.handleSubmit = this.handleSubmit.bind(this);
     };
 
     componentDidMount() {
-        fetch('https://api.sampleapis.com/beers/ale')
-        .then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                beers: json,
-                dataIsLoaded: true
-            });
-        })
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
-        let current_list = [...this.state.beers];
-        const beerNameVal = event.target.beerName.value;
-        const beerPriceVal = event.target.beerPrice.value;
-        let ratingVal = { average: Number(event.target.beerRating.value), reviews: 1 }
-        if (beerNameVal && beerPriceVal && ratingVal) {
-            let testResp = {};
-            testResp = current_list.find(item => item.name === beerNameVal);
-            if (testResp !== undefined) {
-                console.log("FOUND");
-                let tempNum = testResp.rating.reviews;
-                let newReviewsNum = Number(ratingVal.reviews) + Number(tempNum);
-                ratingVal.reviews = newReviewsNum;
-                let newList = current_list.filter(function(item) {
-                    if (item.name === beerNameVal) {
-                        item.rating.reviews = newReviewsNum;
-                        return item;
-                    } else {
-                        return item;
-                    }
-                });
-                this.setState({beers: newList});
-            } else {
-                const new_beer = {
-                    price: "$"+beerPriceVal,
-                    name: beerNameVal,
-                    rating: ratingVal,
-                }
-                current_list.push(new_beer);
-                this.setState({beers: current_list});
-            }
-        }
-        
+        // fetch('https://api.sampleapis.com/beers/ale')
+        // .then((res) => res.json())
+        // .then((json) => {
+        //     this.setState({
+        //         beers: json,
+        //         dataIsLoaded: true
+        //     });
+        // })
+        const loadData = [...jsonData];
+        console.log(loadData);
+        this.setState({beers: loadData});
     };
 
     handleDelete = (beer) => () => {
@@ -113,30 +82,49 @@ export default class Bartender extends React.Component {
         })
     };
 
+    handleSubmit = (event) => {
+        event.preventDefault();
+        let current_list = [...this.state.beers];
+        const beerNameVal = event.target.beerName.value;
+        const beerPriceVal = event.target.beerPrice.value;
+        let ratingVal = { average: Number(event.target.beerRating.value), reviews: 1 }
+        if (beerNameVal && beerPriceVal && ratingVal) {
+            let testResp = {};
+            testResp = current_list.find(item => item.name === beerNameVal);
+            if (testResp !== undefined) {
+                console.log("FOUND");
+                let tempNum = testResp.rating.reviews;
+                let newReviewsNum = Number(ratingVal.reviews) + Number(tempNum);
+                ratingVal.reviews = newReviewsNum;
+                let newList = current_list.filter(function(item) {
+                    if (item.name === beerNameVal) {
+                        item.rating.reviews = newReviewsNum;
+                        return item;
+                    } else {
+                        return item;
+                    }
+                });
+                this.setState({beers: newList});
+            } else {
+                const new_beer = {
+                    price: "$"+beerPriceVal,
+                    name: beerNameVal,
+                    rating: ratingVal,
+                }
+                current_list.push(new_beer);
+                this.setState({beers: current_list});
+            }
+        }
+        
+    };
+
     render() {
         const current_beer_list = this.state.beers;
         const flight_list = this.state.inflight;
         return (
             <div className='AppDiv'>
                 <h1>Hello, Bartender!</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <label htmlFor='beerName'>Beer Name:</label>
-                    <input id='beerName' name='beerName' type="text" onChange={this.changeHandler}/>
-
-                    <label htmlFor='beerPrice'>Price</label>
-                    <input id='beerPrice' name='beerPrice' type="text" onChange={this.changeHandler} />
-
-                    <label htmlFor='beerRating'>Rating</label>
-                    <select id='beerRating' name='beerRating' onChange={this.changeHandler}>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                        <option value="5">5</option>
-                    </select>
-
-                    <input type='submit' value="ADD BEER" />
-                </form>
+                <BeerForm beers={this.state.beers} submitHandler={this.handleSubmit}/>
                 <div>
                     <h2>Flight</h2>
                     <ol>
