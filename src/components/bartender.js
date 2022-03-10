@@ -123,8 +123,6 @@ export default class Bartender extends React.Component {
         return (
             <div className='AppDiv'>
                 <h1>Hello, Bartender!</h1>
-                <BeerForm beers={this.state.beers} handleChange={this.changeHandler} submitHandler={this.handleSubmit}/>
-                <FlightTable flightList={flight_list}/>
                 <BeerTable 
                     beerList={current_beer_list} 
                     deleteHandler={this.handleDelete} 
@@ -132,6 +130,12 @@ export default class Bartender extends React.Component {
                     flightHandler={this.handleFlightOrder}
                     changeName={this.handleNameChange}
                 />
+                <BeerForm 
+                    beers={this.state.beers} 
+                    handleChange={this.changeHandler} 
+                    submitHandler={this.handleSubmit}
+                />
+                <FlightTable flightList={flight_list}/>
             </div>   
         );
     }

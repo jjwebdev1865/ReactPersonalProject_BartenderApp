@@ -1,0 +1,87 @@
+/* Active JS Styling for
+    - BeerTable.js
+    - FlightTable.js
+    - BeerForm.js
+*/
+
+/* ******************Generics****************** */
+th {
+    text-align: center;
+}
+form {
+    border-radius: 25px;
+    border: 5px solid #212fad;
+    padding: 20px; 
+    background-color: #a8a9af;
+}
+
+/* ******************Ids****************** */
+#flightTableDiv {
+    float: right;
+    width: 35%;
+}
+#beerTableDiv {
+    float: left;
+}
+#beerFormDiv {
+    float: right;
+    width: 35%;
+}
+
+/* ******************Classes****************** */
+.nameCol {
+    width: auto;
+}
+.numbersCol {
+    width: 110px;
+    text-align: center;
+}
+.deleteCol {
+    width: 110px;
+	text-align: center;
+    margin: auto;
+}
+.requiredStar {
+    color: red;
+}
+
+.beerFormInput {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+.beerFormLabel {
+    font-size: 2rem;
+    float: left;
+}
+
+.beerFormButton {
+    box-sizing: border-box;
+    border: none;
+    background-color: transparent;
+    padding: 0.25em 0.75em;
+    min-width: 10ch;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: gray;
+    border-radius: 8px;
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.18);
+    text-align: center;
+    line-height: 1.1;
+    transition: 220ms all ease-in-out;
+    font-weight: bold;
+
+    @media screen and (-ms-high-contrast: active) {
+        border: 2px solid currentcolor;
+      }
+}
+.beerFormButton:hover {
+    color: white;
+    background-color: #3e68ff;
+}

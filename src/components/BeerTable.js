@@ -1,4 +1,5 @@
 import React from 'react';
+import './static/styles.css';
 
 export default class BeerTable extends React.Component {
 
@@ -19,39 +20,42 @@ export default class BeerTable extends React.Component {
 
     render() {
         return (
-            <table>
-                <thead>
-                <tr>
-                    <th></th>
-                    <th>Name</th>
-                    <th>Price</th>
-                    <th>Average Rating</th>
-                    <th>Review Count</th>
-                    <th>Delete(Y/N)?</th>
-                    <th>Change Name(Y/N)?</th>
-                </tr>
-                </thead>
-                <tbody>
-                    {this.props.beerList.map((beer, index) => {
-                        return (
-                            <tr key={index}>
-                                <td><input type="checkbox" name='flightCheckBox' id='flightCheckBox' onChange={this.props.flightHandler(beer)}/></td>
-                                <td>{beer.name}</td>
-                                <td>{beer.price}</td>
-                                <td>{beer.rating.average}</td>
-                                <td>{beer.rating.reviews}</td>
-                                <td>
-                                    <input type="button" value="DELETE" onClick={this.props.deleteHandler(beer)}/>
-                                </td>
-                                <td>
-                                    <input type="text" name='newBeerName' id='newBeerName' onChange={this.handleChangeTable}/>
-                                    <input type="button" value="CHANGE NAME" onClick={this.props.changeName(beer, this.state.newBeerName)} />
-                                </td>
-                            </tr>
-                        )
-                    })}
-                </tbody>
-            </table>
+            <div className='container' id='beerTableDiv'>
+                <h2 className='tableH2'>Beer List</h2>
+                <table id='beerTable'>
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Average Rating</th>
+                        <th>Review Count</th>
+                        <th>Delete(Y/N)?</th>
+                        <th>Change Name(Y/N)?</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        {this.props.beerList.map((beer, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td><input type="checkbox" name='flightCheckBox' id='flightCheckBox' onChange={this.props.flightHandler(beer)}/></td>
+                                    <td className='nameCol'>{beer.name}</td>
+                                    <td className='numbersCol'>{beer.price}</td>
+                                    <td className='numbersCol'>{Number(beer.rating.average).toFixed(2)}</td>
+                                    <td className='numbersCol'>{beer.rating.reviews}</td>
+                                    <td className='deleteCol'>
+                                        <input type="button" value="DELETE" onClick={this.props.deleteHandler(beer)}/>
+                                    </td>
+                                    <td className='nameChangeCol'>
+                                        <input type="text" name='newBeerName' id='newBeerName' onChange={this.handleChangeTable}/>
+                                        <input type="button" value="CHANGE" onClick={this.props.changeName(beer, this.state.newBeerName)} />
+                                    </td>
+                                </tr>
+                            )
+                        })}
+                    </tbody>
+                </table>
+            </div>
         )
     }
 }

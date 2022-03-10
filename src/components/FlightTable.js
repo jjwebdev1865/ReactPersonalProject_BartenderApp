@@ -1,15 +1,16 @@
 import React from 'react';
+import './static/styles.css';
 
 export default class FlightTable extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Flight Order</h2>
+            <div className='container' id='flightTableDiv'>
+                <h2 className='tableH2'>Flight Order</h2>
                 <table>
                     <thead>
                         <tr>
-                            <th>Name</th>
+                            <th className='nameCol'>Name</th>
                             <th>Price</th>
                             <th>Quantity</th>
                         </tr>
