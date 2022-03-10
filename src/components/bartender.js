@@ -2,6 +2,7 @@ import React from 'react';
 import './static/bartender.css';
 import BeerForm from './BeerForm';
 import BeerTable from './BeerTable';
+import FlightTable from './FlightTable';
 import jsonData from './static/localBeerStorage.json';
 
 export default class Bartender extends React.Component {
@@ -19,8 +20,6 @@ export default class Bartender extends React.Component {
             newBeerName: "",
             beers: [],
         }
-        // this.changeHandler = this.changeHandler.bind(this);
-        // this.handleSubmit = this.handleSubmit.bind(this);
     };
 
     componentDidMount() {
@@ -45,15 +44,11 @@ export default class Bartender extends React.Component {
     };
 
     handleNameChange = (current_beer, new_beer_name) => () => {
-        console.log("in handle name change");
-        console.log(current_beer);
-        console.log(new_beer_name)
         const current_beer_list = [...this.state.beers];
         let oldBeerName = current_beer.name;
         let oldBeerPrice = current_beer.price;
         let newList = current_beer_list.filter(function(item) {
             if (item.name === oldBeerName && item.price === oldBeerPrice) {
-                console.log(item);
                 let tempItem = item;
                 tempItem.name = new_beer_name;
                 return tempItem;
@@ -97,7 +92,6 @@ export default class Bartender extends React.Component {
             let testResp = {};
             testResp = current_list.find(item => item.name === beerNameVal);
             if (testResp !== undefined) {
-                console.log("FOUND");
                 let tempNum = testResp.rating.reviews;
                 let newReviewsNum = Number(ratingVal.reviews) + Number(tempNum);
                 ratingVal.reviews = newReviewsNum;
@@ -130,16 +124,7 @@ export default class Bartender extends React.Component {
             <div className='AppDiv'>
                 <h1>Hello, Bartender!</h1>
                 <BeerForm beers={this.state.beers} handleChange={this.changeHandler} submitHandler={this.handleSubmit}/>
-                <div>
-                    <h2>Flight</h2>
-                    <ol>
-                        {flight_list.map((flight_item, index) => {
-                            return (
-                                <li id={index}>{flight_item.name}</li>
-                            );
-                        })}
-                    </ol>
-                </div>
+                <FlightTable flightList={flight_list}/>
                 <BeerTable 
                     beerList={current_beer_list} 
                     deleteHandler={this.handleDelete} 
