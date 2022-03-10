@@ -26,6 +26,14 @@ export default class FlightTable extends React.Component {
                                 </tr>
                             )
                         })}
+                        <tr>
+                            <td><strong>checkout</strong></td>
+                            {/* <td>${this.state.checkoutPrice}</td> */}
+                            <td>${this.props.checkoutPrice}</td>
+                            <td>
+                                <input type="button" value="ORDER" />
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
