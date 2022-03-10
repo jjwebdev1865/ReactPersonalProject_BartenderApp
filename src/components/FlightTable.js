@@ -7,21 +7,22 @@ export default class FlightTable extends React.Component {
         return (
             <div className='container' id='flightTableDiv'>
                 <h2 className='tableH2'>Flight Order</h2>
-                <table>
+                <table id='flightTable'>
                     <thead>
-                        <tr>
-                            <th className='nameCol'>Name</th>
-                            <th>Price</th>
-                            <th>Quantity</th>
+                        <tr style={{width: '100%'}}>
+                            <th className='flightNameHeader'>Name</th>
+                            <th className='flightNumbersCol'>Price</th>
+                            <th className='flightNumbersCol'>Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
                         {this.props.flightList.map((flight_item, index) => {
+                            let id = "flightNo_" + index;
                             return (
-                                <tr>
+                                <tr key={id}>
                                     <td>{flight_item.name}</td>
                                     <td>{flight_item.price}</td>
-                                    <td>1</td>
+                                    <td>{flight_item.quantity}</td>
                                 </tr>
                             )
                         })}
