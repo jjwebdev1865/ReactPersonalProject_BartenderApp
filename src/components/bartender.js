@@ -36,6 +36,7 @@ export default class Bartender extends React.Component {
                this.flight_object,
             ],
             newBeerName: "",
+            checkoutPrice: 0,
             beers: [],
         }
     };
@@ -79,6 +80,7 @@ export default class Bartender extends React.Component {
 
     handleFlightOrder = (beer) => (event) => {
         let current_flight = [...this.state.inflight];
+        let newSum = this.state.checkoutPrice;
         if (event.target.checked === true) {
             let empty_spot = [];
             for (let i = 0; i < current_flight.length; i++) {
@@ -89,15 +91,21 @@ export default class Bartender extends React.Component {
             let temp_item = beer;
             temp_item['isPopulated'] = true;
             temp_item['quantity'] = 1;
+            let stringToNumConvert = temp_item.price.substring(1);
+            let stringToNumConvert2 = parseFloat(stringToNumConvert);
+            newSum = newSum + stringToNumConvert2;
             current_flight[empty_spot[0]] = temp_item;
         } else {
             for (let i = 0; i < current_flight.length; i++) {
                 if (current_flight[i].name === beer.name && current_flight[i].price === beer.price) {
+                    let stringToNumConvert = current_flight[i].price.substring(1);
+                    let stringToNumConvert2 = parseFloat(stringToNumConvert);
+                    newSum = newSum - stringToNumConvert2;
                     current_flight[i] = this.flight_object;
                 }
             }
         }
-        console.log(current_flight);
+        this.setState({checkoutPrice: newSum});        
         this.setState({inflight: current_flight});
     }
 
@@ -147,6 +155,7 @@ export default class Bartender extends React.Component {
     render() {
         const current_beer_list = this.state.beers;
         const flight_list = this.state.inflight;
+        const checkoutPrice = this.state.checkoutPrice;
         return (
             <div className='AppDiv'>
                 <h1>Hello, Bartender!</h1>
@@ -163,7 +172,7 @@ export default class Bartender extends React.Component {
                     handleChange={this.changeHandler} 
                     submitHandler={this.handleSubmit}
                 />
-                <FlightTable flightList={flight_list}/>
+                <FlightTable flightList={flight_list} checkoutPrice={checkoutPrice}/>
             </div>   
         );
     }
