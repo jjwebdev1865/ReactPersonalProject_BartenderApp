@@ -6,7 +6,7 @@ export default class BeerTable extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            newBeerName: ""
+            newBeerName: "",
         }
     }
 
@@ -36,8 +36,9 @@ export default class BeerTable extends React.Component {
                     </thead>
                     <tbody>
                         {this.props.beerList.map((beer, index) => {
+                            let id = "beer__" + index
                             return (
-                                <tr key={index}>
+                                <tr key={id}>
                                     <td><input type="checkbox" name='flightCheckBox' id='flightCheckBox' onChange={this.props.flightHandler(beer)}/></td>
                                     <td className='nameCol'>{beer.name}</td>
                                     <td className='numbersCol'>{beer.price}</td>

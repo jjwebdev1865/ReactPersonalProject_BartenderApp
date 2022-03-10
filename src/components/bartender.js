@@ -7,6 +7,17 @@ import jsonData from './static/localBeerStorage.json';
 
 export default class Bartender extends React.Component {
 
+    flight_object = {
+        price: "",
+        name: "",
+        isPopulated: false,
+        quantity: 0,
+        rating: {
+            average: "",
+            reviews: "",
+        },
+    }
+
     constructor(props) {
         super(props);
         this.state = {
@@ -16,7 +27,14 @@ export default class Bartender extends React.Component {
                 average: "",
                 reviews: "",
             },
-            inflight: [],
+            inflight: [
+               this.flight_object,
+               this.flight_object,
+               this.flight_object,
+               this.flight_object,
+               this.flight_object,
+               this.flight_object,
+            ],
             newBeerName: "",
             beers: [],
         }
@@ -60,17 +78,26 @@ export default class Bartender extends React.Component {
     }
 
     handleFlightOrder = (beer) => (event) => {
-        this.changeHandler(event);
         let current_flight = [...this.state.inflight];
-
-        if (this.state.inflight.length < 6) {
-            if (event.target.checked === true) {
-                current_flight.push(beer);
-            } else {
-                let resp = current_flight.find(item => item.name === beer.name);
-                current_flight.pop(resp);
+        if (event.target.checked === true) {
+            let empty_spot = [];
+            for (let i = 0; i < current_flight.length; i++) {
+                if (this.state.inflight[i].isPopulated === false) {
+                    empty_spot.push(i)
+                }
+            }        
+            let temp_item = beer;
+            temp_item['isPopulated'] = true;
+            temp_item['quantity'] = 1;
+            current_flight[empty_spot[0]] = temp_item;
+        } else {
+            for (let i = 0; i < current_flight.length; i++) {
+                if (current_flight[i].name === beer.name && current_flight[i].price === beer.price) {
+                    current_flight[i] = this.flight_object;
+                }
             }
-        } 
+        }
+        console.log(current_flight);
         this.setState({inflight: current_flight});
     }
 
@@ -125,6 +152,7 @@ export default class Bartender extends React.Component {
                 <h1>Hello, Bartender!</h1>
                 <BeerTable 
                     beerList={current_beer_list} 
+                    flightList={flight_list}
                     deleteHandler={this.handleDelete} 
                     handleChange={this.changeHandler}
                     flightHandler={this.handleFlightOrder}
