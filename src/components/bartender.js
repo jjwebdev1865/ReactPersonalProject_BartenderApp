@@ -1,6 +1,7 @@
 import React from 'react';
 import './static/bartender.css';
 import BeerForm from './BeerForm';
+import BeerTable from './BeerTable';
 import jsonData from './static/localBeerStorage.json';
 
 export default class Bartender extends React.Component {
@@ -18,7 +19,7 @@ export default class Bartender extends React.Component {
             newBeerName: "",
             beers: [],
         }
-        this.changeHandler = this.changeHandler.bind(this);
+        // this.changeHandler = this.changeHandler.bind(this);
         // this.handleSubmit = this.handleSubmit.bind(this);
     };
 
@@ -32,7 +33,6 @@ export default class Bartender extends React.Component {
         //     });
         // })
         const loadData = [...jsonData];
-        console.log(loadData);
         this.setState({beers: loadData});
     };
 
@@ -44,20 +44,25 @@ export default class Bartender extends React.Component {
         this.setState({beers: new_list});
     };
 
-    handleNameChange = (newBeer, beer) => () => {
+    handleNameChange = (current_beer, new_beer_name) => () => {
+        console.log("in handle name change");
+        console.log(current_beer);
+        console.log(new_beer_name)
         const current_beer_list = [...this.state.beers];
-        let oldBeerName = beer.name;
-        let newLIst = current_beer_list.filter(function(item) {
-            if (item.name === oldBeerName) {
+        let oldBeerName = current_beer.name;
+        let oldBeerPrice = current_beer.price;
+        let newList = current_beer_list.filter(function(item) {
+            if (item.name === oldBeerName && item.price === oldBeerPrice) {
+                console.log(item);
                 let tempItem = item;
-                tempItem.name = newBeer
+                tempItem.name = new_beer_name;
                 return tempItem;
             } else {
                 return item;
             }
         });
-        this.setState({beers: newLIst});
-    };
+        this.setState({beers: newList});
+    }
 
     handleFlightOrder = (beer) => (event) => {
         this.changeHandler(event);
@@ -121,11 +126,10 @@ export default class Bartender extends React.Component {
     render() {
         const current_beer_list = this.state.beers;
         const flight_list = this.state.inflight;
-        console.log("test")
         return (
             <div className='AppDiv'>
                 <h1>Hello, Bartender!</h1>
-                <BeerForm beers={this.state.beers} submitHandler={this.handleSubmit}/>
+                <BeerForm beers={this.state.beers} handleChange={this.changeHandler} submitHandler={this.handleSubmit}/>
                 <div>
                     <h2>Flight</h2>
                     <ol>
@@ -136,39 +140,13 @@ export default class Bartender extends React.Component {
                         })}
                     </ol>
                 </div>
-                <table>
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Name</th>
-                            <th>Price</th>
-                            <th>Average Rating</th>
-                            <th>Review Count</th>
-                            <th>Delete(Y/N)?</th>
-                            <th>Change Name(Y/N)?</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {current_beer_list.map((beer, index) => {
-                            return (
-                                <tr key={index}>
-                                    <td><input type="checkbox" name='flightCheckBox' id='flightCheckBox' onChange={this.handleFlightOrder(beer)}/></td>
-                                    <td>{beer.name}</td>
-                                    <td>{beer.price}</td>
-                                    <td>{beer.rating.average}</td>
-                                    <td>{beer.rating.reviews}</td>
-                                    <td>
-                                        <input type="button" value="DELETE" onClick={this.handleDelete(beer)}/>
-                                    </td>
-                                    <td>
-                                        <input type="text" name='newBeerName' id='newBeerName' onChange={this.changeHandler}/>
-                                        <input type="button" value="CHANGE NAME" onClick={this.handleNameChange(this.state.newBeerName, beer)} />
-                                    </td>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </table>
+                <BeerTable 
+                    beerList={current_beer_list} 
+                    deleteHandler={this.handleDelete} 
+                    handleChange={this.changeHandler}
+                    flightHandler={this.handleFlightOrder}
+                    changeName={this.handleNameChange}
+                />
             </div>   
         );
     }
