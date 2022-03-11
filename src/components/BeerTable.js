@@ -9,7 +9,7 @@ export default class BeerTable extends React.Component {
             newBeerName: "",
             pageNumber: 1,
             pageStart: 1,
-            pageEnd: 25,
+            pageEnd: 15,
             endBool: false,
         }
     }
@@ -27,12 +27,12 @@ export default class BeerTable extends React.Component {
         let newPageEnd = 0;
         let newPageNum = 0;
         if (action === "next") {
-            newPageStart = this.state.pageStart + 25;
-            newPageEnd = this.state.pageEnd + 25;
+            newPageStart = this.state.pageStart + 15;
+            newPageEnd = this.state.pageEnd + 15;
             newPageNum = this.state.pageNumber + 1;
         } else if (action === "back"){
-            newPageStart = this.state.pageStart - 25;
-            newPageEnd = this.state.pageEnd - 25;
+            newPageStart = this.state.pageStart - 15;
+            newPageEnd = this.state.pageEnd - 15;
             newPageNum = this.state.pageNumber - 1;
         }
         this.setState({pageStart: newPageStart});
@@ -44,7 +44,6 @@ export default class BeerTable extends React.Component {
         let currentPageStart = this.state.pageStart;
         let currentPageEnd = this.state.pageEnd;
         let currentPage = this.state.pageNumber;
-        let endBool = this.state.endBool;
         return (
             <div className='container' id='beerTableDiv'>
                 <h2 className='tableH2'>Beer List</h2>
@@ -87,9 +86,8 @@ export default class BeerTable extends React.Component {
                             }
                         })}
                         <tr>
-                            <td colSpan="6">Showing {currentPageStart} to {currentPageEnd} of {this.props.beerList.length}</td>
+                            <td colSpan="6">Page Number: {currentPage} | Showing {currentPageStart} to {currentPageEnd} of {this.props.beerList.length}</td>
                             <td className='paginationStatus'>
-                                <p>Page {this.state.pageNumber}</p>
                                 <input type="button" value="BACK" 
                                     disabled={currentPage === 1 ? true : false} 
                                     onClick={this.handleBeerCounter("back")}
