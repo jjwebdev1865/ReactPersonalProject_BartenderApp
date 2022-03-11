@@ -21,6 +21,7 @@ form {
     width: 35%;
 }
 #beerTableDiv {
+    width: 65%;
     float: left;
 }
 #beerFormDiv {
@@ -48,9 +49,9 @@ form {
 .flightNameHeader {
     width: 100%;
 }
-.paginationStatus {
+/* .paginationStatus {
     display: inline-flex;
-}
+} */
 
 
 
